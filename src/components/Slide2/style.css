@@ -1,0 +1,78 @@
+.eventBox1{
+    background-image: url('../../assets/rect1.png');
+}
+
+.eventBox2{
+    background-image: url('../../assets/rect2.png');
+}
+
+.eventBox3{
+    background-image: url('../../assets/rect3.png');
+}
+
+.eventBox4{
+    background-image: url('../../assets/rect4.png');
+}
+
+.eventBox5{
+    background-image: url('../../assets/rect5.png');
+}
+
+.eventBox6{
+    background-image: url('../../assets/rect6.png');
+}
+
+/* .eventBox:nth-child(7){
+    background-image: url('../../assets/rect7.png');
+} */
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-300%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(200%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+.slideDown{
+    transform: translateY(-300%);
+    animation: slideDown 0.5s ease-in-out forwards;
+}
+
+.slideUp{
+    transform: translateY(200%);
+    animation: slideUp 0.5s ease-in-out forwards;
+}
+
+.bg-vector{
+    background-image: url('../../assets/Vector2.svg');
+}
+
+.fade{
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.fadeSlow{
+    animation: fadeIn 1s ease-in-out;
+}

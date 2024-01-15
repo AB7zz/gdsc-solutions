@@ -1,0 +1,100 @@
+import React, { useState, useEffect } from "react";
+import left_tree from '../../assets/left_tree.png'
+import right_tree from '../../assets/right_tree.png'
+import mountain from '../../assets/landscape.png'
+import arch from '../../assets/arch.png'
+import shuttle from '../../assets/shuttle.png'
+import './style.css'
+import { useStateContext } from "../../context/SateContext";
+import { Link } from "react-router-dom";
+
+
+
+const Slide1 = () => {
+  const {setSlide} = useStateContext()
+  const [scrolled, setScrolled] = React.useState(false)
+  const componentRef = React.useRef(null);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      if (scrollTop > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+
+      const element = componentRef.current;
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        if (rect.top < window.innerHeight-500 && rect.bottom >= 0) {
+          setSlide('#home')
+        } else {
+
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
+  return (
+    <div ref={componentRef} id="home" className={`component h-screen overflow-hidden`}>
+      <div className={`fixed top-0 left-0 w-full h-3/4 flex flex-row justify-center md:justify-between items-center my-auto `}>
+        <div className='hidden md:flex ml-20 mb-[-180px]'>
+          <img src={left_tree} alt='left tree' className='h-40 lg:h-56 animate-left' />
+        </div>
+        <div >
+
+        {/* <p className="text-black text-center font-semibold fadeSlowSlow">14th October 2023, CUSAT</p> */}
+          <div className=' w-48 h-48 lg:w-60 lg:h-60 rounded-full bg-[#41980a] animate-down flex justify-center items-center'>
+            <h1 className="text-5xl lg:text-[63px] stylish">
+              Code<span className="text-white">M</span>
+            </h1>
+          </div>
+          {/* <p className="text-white quicksand relative z-20 -mt-10">Indias largest space un-conference</p> */}
+        </div>
+        <div className='hidden md:flex mt-[-180px]'>
+          <img src={right_tree} alt='right tree' className='h-40 lg:h-56 animate-right' />
+
+        </div>
+      </div>
+      {/* <div className={`hidden md:flex fixed bottom-0 left-0 w-full ${scrolled ? 'enlarged' : ''} flex justify-center items-center  `}>
+        <div className="w-3/5">
+        <img
+          src={mountain}
+          alt='mountain'
+          className={` ${scrolled ? 'h-56' : 'h-40'} animate-up flex justify-center mx-auto`}
+          style={{
+            transition: 'height 1s ease',
+          }}
+        />
+        </div>
+      </div> */}
+      <a href="/register" className="md:hidden flex justify-center relative z-30 mt-[310px]">
+        <button className='bg-[#41980a] text-white px-5 py-3 quicksand font-semibold'>BUY TICKETS</button>
+      </a>
+      <div className={`fixed bottom-0 left-0 w-full flex justify-center items-center`}>
+        <img
+          src={arch}
+          alt="arch"
+          className={`${scrolled ? 'animate-ping' : 'h-72 md:h-96'} animate-up-slow`}
+        />
+      </div>
+
+
+      <div className={`absolute bottom-[-110px] left-0 w-full ${scrolled ? '' : 'hidden'} hidden md:hidden justify-center items-center`}>
+        <img
+          src={shuttle}
+          alt="shuttle"
+          className={`${scrolled ? 'h-96 md:h-[560px]' : 'h-64'} animate-shuttle`}
+        />
+
+      </div>
+    </div>
+  )
+}
+
+export default Slide1
