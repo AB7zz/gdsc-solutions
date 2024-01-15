@@ -7,7 +7,8 @@ import axios from 'axios'
 const Live = () => {
     const { setSlide } = useStateContext()
     const componentRef = React.useRef(null);
-    const [weatherData, setWeather] = React.useState()
+    const [weatherData, setWeather] = React.useState([])
+    const [weatherData2, setWeather2] = React.useState([])
     React.useEffect(() => {
         const handleScroll = () => {
             const element = componentRef.current;
@@ -22,14 +23,22 @@ const Live = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    
     const handleFetchWeather = async(latlong) => {
         const lat = latlong.split(',')[0]
         const long = latlong.split(',')[1]
         const response = await axios.get(`http://www.7timer.info/bin/api.pl?lon=${long}&lat=${lat}&product=astro&output=json`)
+        const response2 = await axios.get(`http://www.7timer.info/bin/api.pl?lon=${long}&lat=${lat}&product=meteo&output=json`)
         console.log(response)
+        console.log(response2)
         setWeather(response.data.dataseries)
+        setWeather2(response2.data.dataseries)
     }
-
+    
+    const combinedWeatherData = weatherData.map((data, index) => ({
+        ...data,
+        ...weatherData2[index]
+    }));
 
     const getCloudcoverRange = (cloudcover) => {
     if (cloudcover >= 0 && cloudcover <= 6) return '0%-6%';
@@ -41,6 +50,15 @@ const Live = () => {
         else if (cloudcover > 69 && cloudcover <= 81) return '69%-81%';
         else if (cloudcover > 81 && cloudcover <= 94) return '81%-94%';
         else return '';
+    };
+    const getMSLPressureRange = (mslPressure) => {
+        const MSL_PRESSURE_MIN = 924;
+        const MSL_PRESSURE_MAX = 1060;
+        if (mslPressure >= MSL_PRESSURE_MIN && mslPressure <= MSL_PRESSURE_MAX) {
+          return `${MSL_PRESSURE_MIN}hPa to ${MSL_PRESSURE_MAX}hPa`;
+        } else {
+          return '';
+        }
     };
     const getWindSpeedRange = (windSpeed) => {
         if (windSpeed < 0.3) return 'Below 0.3m/s (calm)';
@@ -65,6 +83,38 @@ const Live = () => {
         else if (liftedIndex >= 11) return 'Over 11';
         else return '';
     };
+    const getPrecipAmountRange = (precipAmount) => {
+        const PRECIP_AMOUNT_RANGES = [
+            'None',
+            '0-0.25mm/hr',
+            '0.25-1mm/hr',
+            '1-4mm/hr',
+            '4-10mm/hr',
+            '10-16mm/hr',
+            '16-30mm/hr',
+            '30-50mm/hr',
+            '50-75mm/hr',
+            '75+mm/hr'
+        ];
+        return PRECIP_AMOUNT_RANGES[precipAmount] || '';
+    };
+
+    const getSnowDepthRange = (snowDepth) => {
+        const SNOW_DEPTH_RANGES = [
+            'None',
+            '0-1cm',
+            '1-5cm',
+            '5-10cm',
+            '10-25cm',
+            '25-50cm',
+            '50-100cm',
+            '100-150cm',
+            '150-250cm',
+            '250+cm'
+        ];
+        return SNOW_DEPTH_RANGES[snowDepth] || '';
+    };
+
   return (
     <>
         <div ref={componentRef} id="form" className='component md:ml-7 relative z-30 h-screen'>
@@ -91,20 +141,26 @@ const Live = () => {
                                     <th className="py-2 px-4 border-b">Wind 10m</th>
                                     <th className="py-2 px-4 border-b">Temperature 2m</th>
                                     <th className="py-2 px-4 border-b">Precipitation Type</th>
+                                    <th className="py-2 px-4 border-b">MSL Pressure</th>
+                                    <th className="py-2 px-4 border-b">Precipitation Amount</th>
+                                    <th className="py-2 px-4 border-b">Snow Depth</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {weatherData && weatherData.slice(0, 7).map((data, index) => (
+                                {combinedWeatherData && combinedWeatherData.slice(0, 7).map((data, index) => (
                                     <tr key={index}>
-                                    <td className="py-2 px-4 border-b">{index + 1}</td>
-                                    <td className="py-2 px-4 border-b">{getCloudcoverRange(data.cloudcover)}</td>
-                                    {/* <td className="py-2 px-4 border-b">{data.seeing}</td> */}
-                                    <td className="py-2 px-4 border-b">{data.transparency}</td>
-                                    <td className="py-2 px-4 border-b">{getLiftedIndexRange(data.lifted_index)}</td>
-                                    <td className="py-2 px-4 border-b">{data.rh2m}</td>
-                                    <td className="py-2 px-4 border-b">{getWindSpeedRange(data.wind10m.speed)}</td>
-                                    <td className="py-2 px-4 border-b">{data.temp2m}</td>
-                                    <td className="py-2 px-4 border-b">{data.prec_type}</td>
+                                        <td className="py-2 px-4 border-b">{index + 1}</td>
+                                        <td className="py-2 px-4 border-b">{getCloudcoverRange(data.cloudcover)}</td>
+                                        {/* <td className="py-2 px-4 border-b">{data.seeing}</td> */}
+                                        <td className="py-2 px-4 border-b">{data.transparency}</td>
+                                        <td className="py-2 px-4 border-b">{getLiftedIndexRange(data.lifted_index)}</td>
+                                        <td className="py-2 px-4 border-b">{data.rh2m}</td>
+                                        <td className="py-2 px-4 border-b">{getWindSpeedRange(data.wind10m.speed)}</td>
+                                        <td className="py-2 px-4 border-b">{data.temp2m}</td>
+                                        <td className="py-2 px-4 border-b">{data.prec_type}</td>
+                                        <td className="py-2 px-4 border-b">{getMSLPressureRange(data.msl_pressure)}</td>
+                                        <td className="py-2 px-4 border-b">{getPrecipAmountRange(data.prec_amount)}</td>
+                                        <td className="py-2 px-4 border-b">{getSnowDepthRange(data.snow_depth)}</td>
                                     </tr>
                                 ))}
                                 </tbody>
