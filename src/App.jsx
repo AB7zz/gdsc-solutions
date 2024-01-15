@@ -3,8 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Home from "./pages/Home"
 import Sidebar from "./components/Sidebar"
 import { useStateContext } from "./context/SateContext"
-import Booked from "./pages/Booked"
-import Register from "./pages/Register"
 import Live from "./pages/Live"
 import About from "./pages/About"
 
