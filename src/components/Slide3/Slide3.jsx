@@ -9,6 +9,7 @@ import vais2 from '../../assets/vais2.jpeg'
 import kerala from '../../assets/kerala.png'
 import right_tree from '../../assets/right_tree.png'
 import pattern from '../../assets/Pattern 01.png'
+import './Slide3.css';
 
 const Slide3 = () => {
 
@@ -70,14 +71,15 @@ const Slide3 = () => {
     }
     return (
         <div ref={componentRef} id="speakers" className='component bg-white md:h-full h-[100%] w-full relative z-30 py-10 px-5'>
-            {/* <hr className='absolute border-[1.5px] md:rotate-0 rotate-90 md:h-[700px] h-[200px] md:ml-[1px] ml-[10px] ' /> */}
-            <div className='grid md:grid-cols-6 grid-cols-1'>  
+            <div className='grid md:grid-cols-6 grid-cols-1 items-center'>  
                 <div className='md:col-span-1 flex md:flex-col items-center'>
-                    <p onClick={handleDec} className='transform md:-rotate-90 rotate-180 text-4xl md:text-5xl mt-2 md:mt-0 md:-ml-3 hover:cursor-pointer'>&gt;</p>
+                    <p onClick={handleInc} className={`transform md:-rotate-90 rotate-0 text-4xl md:text-5xl mb-1 md:mb-0 md:-ml-3 hover:cursor-pointer clickable`}>&gt;</p>
+                    <span className="next-slide-text">Next Slide</span>
                     <hr className='md:h-[200px] md:w-[2px] md:min-w-[2px] h-[2px] w-[35%] min-w-[35%] bg-black'/>
                     <h1 className=' text-black text-3xl md:text-5xl my-5'>{speaker}/2</h1>
                     <hr className='md:h-[200px] md:w-[2px] md:min-w-[2px] h-[2px] w-[35%] min-w-[35%] bg-black'/>
-                    <p onClick={handleInc} className='transform md:rotate-90 rotate-0 text-4xl md:text-5xl mb-1 md:mb-0 md:ml-3 hover:cursor-pointer'>&gt;</p>
+                    <p onClick={handleInc} className={`transform md:rotate-90 rotate-0 text-4xl md:text-5xl mb-1 md:mb-0 md:ml-3 hover:cursor-pointer clickable`}>&gt;</p>
+                    <span className="next-slide-text">Next Slide</span>
                 </div>
                 <div className='col-span-5'>
                     <div className='grid grid-cols-1'>
@@ -101,7 +103,7 @@ const Slide3 = () => {
                                 <h1 className='quicksand text-2xl md:text-left text-center'>{speakers[speaker-1].designation}</h1>
                                 <div className='my-10 grid md:grid-cols-2 grid-cols-1'>
                                     <div className='grid md:grid-rows-2'>
-                                        <img src={speakers[speaker-1].img1} alt='tessy1' className='md:w-[100%] h-[80%]' />
+                                        <img src={speakers[speaker-1].img1} alt='tessy1' className='md:w-[100%] h-[100%]' />
                                         {/* <img src={speakers[speaker-1].img2} alt='tessy1' className='md:w-[100%] h-[90%]' /> */}
                                     </div>
                                     {/* <div className='ml-5 md:block hidden'>
