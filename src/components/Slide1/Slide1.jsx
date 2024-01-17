@@ -73,9 +73,9 @@ const Slide1 = () => {
         />
         </div>
       </div> */}
-      <a href="/register" className="md:hidden flex justify-center relative z-30 mt-[310px]">
+      {/* <a href="/register" className="md:hidden flex justify-center relative z-30 mt-[310px]">
         <button className='bg-[#41980a] text-white px-5 py-3 quicksand font-semibold'>BUY TICKETS</button>
-      </a>
+      </a> */}
       <div className={`fixed bottom-0 left-0 w-full flex justify-center items-center`}>
         <img
           src={arch}
