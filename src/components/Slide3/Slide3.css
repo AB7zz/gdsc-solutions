@@ -1,0 +1,22 @@
+/* Slide3.css */
+
+.clickable {
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.clickable:hover {
+    transform: scale(1.5);
+    color: #41980a;
+}
+
+.next-slide-text {
+    display: none;
+    margin-bottom: 10px; /* Adjust the spacing between text and arrows */
+}
+
+.clickable:hover + .next-slide-text {
+    display: block;
+    color: #41980a; /* You can customize the color */
+    margin: 10px; 
+    text-align: center;
+}
